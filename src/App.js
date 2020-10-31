@@ -1,23 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react'
 
 function App() {
+  const [sentence, setSentence] = React.useState(' Aquí se ve lo que escribes')
+
+  function handleChange(event) {
+    event.preventDefault()
+    setSentence(event.target.value)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <h1>{sentence}</h1>
+        <div>
+          <p>#tags</p>
+        </div>
+        <div>
+          <p>Tu nombre</p>
+        </div>
+      </div>
+      <div>
+        <form>
+          <label htmlFor="sentence">Escribe tu idea</label>
+          <input type="text"  id="sentence" onChange={handleChange}/>
+        </form>
+      </div>
     </div>
   );
 }
