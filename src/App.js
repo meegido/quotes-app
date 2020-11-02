@@ -2,16 +2,15 @@
 import { jsx } from '@emotion/core'
 import 'bootstrap/dist/css/bootstrap-reboot.css'
 import React from 'react'
-import {Input} from 'styles'
+import {Input, Smily, Send} from 'styles'
 
-
-
- function Sentence({sentence, onSentenceChange}) {
+  function Sentence({sentence, onSentenceChange}) {
     return (
-      <form>
-
+      <form >
+        <span><Smily /></span>
         <label htmlFor="sentence"></label>
-        <Input type="text"  id="sentence" onChange={onSentenceChange} placeholder="Escribe tu idea"/>
+        <Input type="text"  id="sentence" onChange={onSentenceChange} placeholder="Escribe tu idea" variant="secondary"/>
+        <span><Send /></span>
       </form>
     )
   }
@@ -20,7 +19,7 @@ import {Input} from 'styles'
     return (
       <form>
         <label htmlFor="name"></label>
-        <Input type="text"  id="name" onChange={onNameChange} placeholder="Your name..."/>
+        <Input type="text"  id="name" onChange={onNameChange} placeholder="Your name..." variant="primary"/>
       </form>
     )
   }
@@ -29,7 +28,7 @@ import {Input} from 'styles'
     return (
       <form >
         <label htmlFor="tags"></label>
-        <Input type="text" id="tags" onChange={onTagsChange} placeholder="#tags..." />
+        <Input type="text" id="tags" onChange={onTagsChange} placeholder="#tags..." variant="primary"/>
       </form>
     )
   }
@@ -50,13 +49,14 @@ function App() {
         '> div': {
           margin: '10px auto',
           width: '100%',
-          maxWidth: '300px',
+          maxWidth: '400px',
         },
       }}>
         <div>
           <h1 css={{
             fontSize: '4rem'
           }}>{sentence}</h1>
+          
         </div>
         <div css={{
           display: 'flex',
@@ -70,7 +70,10 @@ function App() {
             <Name name={name} onNameChange={event => setName(event.target.value)}/>
          </div>
         </div>
-        <div>
+        <div css={{
+          border: '2px solid black',
+          borderRadius: '2em'
+        }}>
           <Sentence sentence={sentence} onSentenceChange={event => setSentence(event.target.value)}/>
         </div>
       </div>
