@@ -4,39 +4,67 @@ import 'bootstrap/dist/css/bootstrap-reboot.css'
 import React from 'react'
 import {Input, Smily, Send} from 'styles'
 
-  function Sentence({sentence, onSentenceChange}) {
-    return (
-      <form >
-        <span><Smily /></span>
-        <label htmlFor="sentence"></label>
-        <Input type="text"  id="sentence" onChange={onSentenceChange} placeholder="Escribe tu idea" variant="secondary"/>
-        <span><Send /></span>
-      </form>
-    )
-  }
+function useLocalStorage(
+  key, 
+  initialValue = '', 
+  {serialize = JSON.stringify, deserialize = JSON.parse} = {}) {
+  const [state, setState] = React.useState(
+    () => {
+      const valueInLocalStorage = window.localStorage.getItem(key)
+      if (valueInLocalStorage) {
+        return deserialize(valueInLocalStorage)
+      }
+      return typeof initialValue === 'function' ? initialValue() : initialValue
+    }
+  )
 
-  function Name({name, onNameChange}) {
-    return (
-      <form>
-        <label htmlFor="name"></label>
-        <Input type="text"  id="name" onChange={onNameChange} placeholder="Your name..." variant="primary"/>
-      </form>
-    )
-  }
+  const prevKeyRef = React.useRef(key)
 
-  function Tags({tags, onTagsChange}) {
-    return (
-      <form >
-        <label htmlFor="tags"></label>
-        <Input type="text" id="tags" onChange={onTagsChange} placeholder="#tags..." variant="primary"/>
-      </form>
-    )
-  }
+  React.useEffect(() => {
+    const prevKey = prevKeyRef.current
+    if (prevKey !== key) {
+      window.localStorage.removeItem(prevKey)
+    }
 
-function App() {
-  const [sentence, setSentence] = React.useState(' Aquí se ve lo que escribes')
-  const [tags, setTags] = React.useState(' ')
-  const [name, setName] = React.useState(' ')
+    window.localStorage.setItem(key, serialize(state))
+    }, [key, state, serialize])
+
+    return [state, setState]
+}
+
+function Sentence({sentence, onSentenceChange}) {
+  return (
+    <form >
+      <span><Smily /></span>
+      <label htmlFor="sentence"></label>
+      <Input type="text"  id="sentence" onChange={onSentenceChange} placeholder="Escribe tu idea" variant="secondary"/>
+      <span><Send /></span>
+    </form>
+  )
+}
+
+function Name({name, onNameChange}) {
+  return (
+    <form>
+      <label htmlFor="name"></label>
+      <Input type="text"  id="name" onChange={onNameChange} placeholder="Your name..." variant="primary"/>
+    </form>
+  )
+}
+
+function Tags({tags, onTagsChange}) {
+  return (
+    <form >
+      <label htmlFor="tags"></label>
+      <Input type="text" id="tags" onChange={onTagsChange} placeholder="#tags..." variant="primary"/>
+    </form>
+  )
+}
+
+function App({initialTags = ' ', initialName = ' '}) {
+  const [sentence, setSentence] = useLocalStorage('sentence', ' Esta es la que se ve')
+  const [tags, setTags] = useLocalStorage('tags', initialTags)
+  const [name, setName] = useLocalStorage('name', initialName)
 
   return (
     <div className="App">
