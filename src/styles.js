@@ -1,10 +1,10 @@
 import styled from '@emotion/styled/macro'
 
 const Input = styled.input({
-  borderRadius: '3px',
-  border: `1px solid gray`,
-  background: 'gray',
+  border: 'none',
   padding: '8px 12px',
+  outline: 'none',
+  backgroundColor: 'transparent'
 })
 
 export {Input}

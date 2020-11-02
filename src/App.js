@@ -9,6 +9,7 @@ import {Input} from 'styles'
  function Sentence({sentence, onSentenceChange}) {
     return (
       <form>
+
         <label htmlFor="sentence"></label>
         <Input type="text"  id="sentence" onChange={onSentenceChange} placeholder="Escribe tu idea"/>
       </form>
@@ -19,7 +20,7 @@ import {Input} from 'styles'
     return (
       <form>
         <label htmlFor="name"></label>
-        <input type="text"  id="name" onChange={onNameChange} placeholder="Your name..."/>
+        <Input type="text"  id="name" onChange={onNameChange} placeholder="Your name..."/>
       </form>
     )
   }
@@ -28,7 +29,7 @@ import {Input} from 'styles'
     return (
       <form >
         <label htmlFor="tags"></label>
-        <input type="text" id="tags" onChange={onTagsChange} placeholder="#tags..." />
+        <Input type="text" id="tags" onChange={onTagsChange} placeholder="#tags..." />
       </form>
     )
   }
@@ -40,10 +41,12 @@ function App() {
 
   return (
     <div className="App">
-      <div  css={{
+      <div css={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'stretch',
+        background: 'radial-gradient(63.34% 63.34% at 50% 50%, rgba(226, 146, 146, 0.5) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(180deg, #A8ADEE 0%, rgba(249, 226, 174, 0) 100%);',
+        height: '100vh',
         '> div': {
           margin: '10px auto',
           width: '100%',
@@ -51,13 +54,21 @@ function App() {
         },
       }}>
         <div>
-          <h1>{sentence}</h1>
+          <h1 css={{
+            fontSize: '4rem'
+          }}>{sentence}</h1>
         </div>
-        <div>
-          <Tags tags={tags} onTagsChange={event => setTags(event.target.value)} />
-        </div>
-        <div>
-          <Name name={name} onNameChange={event => setName(event.target.value)}/>
+        <div css={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+         }}>
+         <div>
+            <Tags tags={tags} onTagsChange={event => setTags(event.target.value)} />
+         </div>
+          <div>
+            <Name name={name} onNameChange={event => setName(event.target.value)}/>
+         </div>
         </div>
         <div>
           <Sentence sentence={sentence} onSentenceChange={event => setSentence(event.target.value)}/>
