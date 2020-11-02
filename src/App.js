@@ -4,33 +4,7 @@ import 'bootstrap/dist/css/bootstrap-reboot.css'
 import React from 'react'
 import {Input, Smily, Send} from 'styles'
 
-function useLocalStorage(
-  key, 
-  initialValue = '', 
-  {serialize = JSON.stringify, deserialize = JSON.parse} = {}) {
-  const [state, setState] = React.useState(
-    () => {
-      const valueInLocalStorage = window.localStorage.getItem(key)
-      if (valueInLocalStorage) {
-        return deserialize(valueInLocalStorage)
-      }
-      return typeof initialValue === 'function' ? initialValue() : initialValue
-    }
-  )
-
-  const prevKeyRef = React.useRef(key)
-
-  React.useEffect(() => {
-    const prevKey = prevKeyRef.current
-    if (prevKey !== key) {
-      window.localStorage.removeItem(prevKey)
-    }
-
-    window.localStorage.setItem(key, serialize(state))
-    }, [key, state, serialize])
-
-    return [state, setState]
-}
+import {useLocalStorageState} from 'utils'
 
 function Sentence({sentence, onSentenceChange}) {
   return (
@@ -62,9 +36,9 @@ function Tags({tags, onTagsChange}) {
 }
 
 function App({initialTags = ' ', initialName = ' '}) {
-  const [sentence, setSentence] = useLocalStorage('sentence', ' Esta es la que se ve')
-  const [tags, setTags] = useLocalStorage('tags', initialTags)
-  const [name, setName] = useLocalStorage('name', initialName)
+  const [sentence, setSentence] = useLocalStorageState('sentence', ' Esta es la que se ve')
+  const [tags, setTags] = useLocalStorageState('tags', initialTags)
+  const [name, setName] = useLocalStorageState('name', initialName)
 
   return (
     <div className="App">
