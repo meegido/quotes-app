@@ -1,28 +1,33 @@
-import './App.css';
+/** @jsxImportSource @emotion/core */
+import { jsx } from '@emotion/core'
+import 'bootstrap/dist/css/bootstrap-reboot.css'
 import React from 'react'
+import {Input} from 'styles'
+
+
 
  function Sentence({sentence, onSentenceChange}) {
     return (
-      <div>
+      <form>
         <label htmlFor="sentence"></label>
-        <input type="text"  id="sentence" onChange={onSentenceChange} placeholder="Escribe tu idea"/>
-      </div>
+        <Input type="text"  id="sentence" onChange={onSentenceChange} placeholder="Escribe tu idea"/>
+      </form>
     )
   }
 
   function Name({name, onNameChange}) {
     return (
-      <div>
-        <label htmlFor="name">{name}</label>
+      <form>
+        <label htmlFor="name"></label>
         <input type="text"  id="name" onChange={onNameChange} placeholder="Your name..."/>
-      </div>
+      </form>
     )
   }
 
   function Tags({tags, onTagsChange}) {
     return (
       <form >
-        <label htmlFor="tags">{tags}</label>
+        <label htmlFor="tags"></label>
         <input type="text" id="tags" onChange={onTagsChange} placeholder="#tags..." />
       </form>
     )
@@ -35,17 +40,28 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        <h1>{sentence}</h1>
+      <div  css={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        '> div': {
+          margin: '10px auto',
+          width: '100%',
+          maxWidth: '300px',
+        },
+      }}>
+        <div>
+          <h1>{sentence}</h1>
+        </div>
         <div>
           <Tags tags={tags} onTagsChange={event => setTags(event.target.value)} />
         </div>
-        <form>
+        <div>
           <Name name={name} onNameChange={event => setName(event.target.value)}/>
-        </form>
-        <form>
+        </div>
+        <div>
           <Sentence sentence={sentence} onSentenceChange={event => setSentence(event.target.value)}/>
-        </form>
+        </div>
       </div>
     </div>
   );
