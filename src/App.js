@@ -9,13 +9,33 @@ import {useLocalStorageState} from 'utils'
 
 function App() {
   const [quote, setQuote] = React.useState({
-    sentence: ' Esta es la frase inicial'
+    sentence: ' Esta es la frase inicial',
+    tag: ' ',
+    author: ' '
   })
   const {sentence} = quote
 
-  function handleChange(event) {
+  function handleSentenceChange(event, sentence) {
     event.preventDefault()
-    setQuote({sentence: event.target.value})
+    setQuote({
+      sentence: event.target.value,
+    }, sentence)
+  }
+
+  function handleTagChange(event, tag) {
+    event.preventDefault()
+    setQuote({
+      tag: event.target.value,
+      sentence
+    })
+  }
+
+  function handleAuthorChange(event, author) {
+    event.preventDefault()
+    setQuote({
+      author: event.target.value,
+      sentence
+    })
   }
  
   return (
@@ -45,6 +65,10 @@ function App() {
             alignItems: 'center',
           }}>
           </div>
+          <label htmlFor="tag"></label>
+            <Input type="text"  id="tag" onChange={handleTagChange} placeholder="#tag..." variant="primary"/>
+          <label htmlFor="author"></label>
+            <Input type="text"  id="author" onChange={handleAuthorChange} placeholder="My name..." variant="primary"/>
           <div css={{
             border: '2px solid black',
             borderRadius: '2em',
@@ -52,9 +76,10 @@ function App() {
           }}>
             <span><Smily /></span>
             <label htmlFor="sentence"></label>
-            <Input type="text"  id="sentence" onChange={handleChange} placeholder="Escribe tu idea" variant="secondary"/>
+            <Input type="text"  id="sentence" onChange={handleSentenceChange} placeholder="Escribe tu idea" variant="secondary"/>
             <span><Send /></span>
           </div>
+          
         </form>
       </div>
       </div>
