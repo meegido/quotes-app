@@ -6,40 +6,18 @@ import {Input, Smily, Send} from 'styles'
 
 import {useLocalStorageState} from 'utils'
 
-function Sentence({sentence, onSentenceChange}) {
-  return (
-    <form >
-      <span><Smily /></span>
-      <label htmlFor="sentence"></label>
-      <Input type="text"  id="sentence" onChange={onSentenceChange} placeholder="Escribe tu idea" variant="secondary"/>
-      <span><Send /></span>
-    </form>
-  )
-}
 
-function Name({name, onNameChange}) {
-  return (
-    <form>
-      <label htmlFor="name"></label>
-      <Input type="text"  id="name" onChange={onNameChange} placeholder="Your name..." variant="primary"/>
-    </form>
-  )
-}
+function App() {
+  const [quote, setQuote] = React.useState({
+    sentence: ' Esta es la frase inicial'
+  })
+  const {sentence} = quote
 
-function Tags({tags, onTagsChange}) {
-  return (
-    <form >
-      <label htmlFor="tags"></label>
-      <Input type="text" id="tags" onChange={onTagsChange} placeholder="#tags..." variant="primary"/>
-    </form>
-  )
-}
-
-function App({initialTags = ' ', initialName = ' '}) {
-  const [sentence, setSentence] = useLocalStorageState('sentence', ' Esta es la que se ve')
-  const [tags, setTags] = useLocalStorageState('tags', initialTags)
-  const [name, setName] = useLocalStorageState('name', initialName)
-
+  function handleChange(event) {
+    event.preventDefault()
+    setQuote({sentence: event.target.value})
+  }
+ 
   return (
     <div className="App">
       <div css={{
@@ -54,30 +32,31 @@ function App({initialTags = ' ', initialName = ' '}) {
           maxWidth: '400px',
         },
       }}>
-        <div>
-          <h1 css={{
-            fontSize: '4rem'
-          }}>{sentence}</h1>
-          
-        </div>
-        <div css={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-         }}>
-         <div>
-            <Tags tags={tags} onTagsChange={event => setTags(event.target.value)} />
-         </div>
-          <div>
-            <Name name={name} onNameChange={event => setName(event.target.value)}/>
-         </div>
-        </div>
-        <div css={{
-          border: '2px solid black',
-          borderRadius: '2em'
-        }}>
-          <Sentence sentence={sentence} onSentenceChange={event => setSentence(event.target.value)}/>
-        </div>
+      <div>
+        <h1 css={{
+          fontSize: '4rem'
+        }}>{sentence}</h1>
+      </div>
+      <div>
+        <form>
+          <div css={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          </div>
+          <div css={{
+            border: '2px solid black',
+            borderRadius: '2em',
+            width: '400px',
+          }}>
+            <span><Smily /></span>
+            <label htmlFor="sentence"></label>
+            <Input type="text"  id="sentence" onChange={handleChange} placeholder="Escribe tu idea" variant="secondary"/>
+            <span><Send /></span>
+          </div>
+        </form>
+      </div>
       </div>
     </div>
   );
