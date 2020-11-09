@@ -15,7 +15,8 @@ const inputVariants = {
     textDecoration: 'underline'
   },
   secondary: {
-    paddingRight: '6rem'
+    width: '17rem',
+    paddingRight: '1rem'
   }
 }
 
@@ -26,9 +27,13 @@ const Smily = styled(FaRegSmileWink)({
 })
 
 const Send = styled(IoIosSend)({
-  padding: '1rem',
-  width: '60px',
-  height: '60px',
+  fontSize: '32px',
+  padding: '.08em',
 })
 
-export {Input, Smily, Send}
+const Button = styled.button({
+  borderRadius: '50%',
+  backgroundColor: 'transparent'
+})
+
+export {Input, Smily, Button, Send}

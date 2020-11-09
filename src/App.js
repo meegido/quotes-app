@@ -2,15 +2,18 @@
 import { jsx } from '@emotion/core'
 import 'bootstrap/dist/css/bootstrap-reboot.css'
 import React from 'react'
-import {Input, Smily, Send} from 'styles'
+import { FaSleigh } from 'react-icons/fa'
+import {Input, Smily, Button, Send} from 'styles'
 
 const API_URL = 'http://localhost:8080/quotes'
 
 function App() {
   const [quote, setQuote] = React.useState({
-    sentence: ' Esta es la frase inicial',
+    sentence: 'Esta es la frase inicial',
+    disabled: true
   })
-  const {sentence} = quote
+  console.log(quote, ' quote state')
+  const {sentence, disabled} = quote
 
   function createQuote() {
     return fetch(API_URL, {
@@ -37,14 +40,15 @@ function App() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    createQuote(quote)
+    createQuote({sentence})
   }
 
   function handleSentenceChange(event, sentence) {
     event.preventDefault()
     setQuote({
       sentence: event.target.value,
-    }, sentence)
+      disabled: false
+    }, sentence, disabled)
   }
  
   return (
@@ -52,7 +56,7 @@ function App() {
       <div css={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'stretch',
+       
         background: 'radial-gradient(63.34% 63.34% at 50% 50%, rgba(226, 146, 146, 0.5) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(180deg, #A8ADEE 0%, rgba(249, 226, 174, 0) 100%);',
         height: '100vh',
         '> div': {
@@ -73,18 +77,26 @@ function App() {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
+            <div css={{
+              border: '2px solid black',
+              borderRadius: '2em',
+              width: '400px',
+            }}>
+              <span><Smily /></span>
+              <label htmlFor="sentence"></label>
+              <Input 
+                type="text" 
+                variant="secondary"
+                id="sentence" 
+                name="sentence"
+                placeholder="Escribe tu idea" 
+                onChange={handleSentenceChange} 
+                />
+              <Button type="submit" disabled={disabled}>
+                <Send />
+              </Button>
+            </div>
           </div>
-          <div css={{
-            border: '2px solid black',
-            borderRadius: '2em',
-            width: '400px',
-          }}>
-            <span><Smily /></span>
-            <label htmlFor="sentence"></label>
-            <Input type="text"  id="sentence" onChange={handleSentenceChange} placeholder="Escribe tu idea" variant="secondary"/>
-            <button type="submit"><Send /></button>
-          </div>
-          
         </form>
       </div>
       </div>
