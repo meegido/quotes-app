@@ -4,29 +4,36 @@ import 'bootstrap/dist/css/bootstrap-reboot.css'
 import React from 'react'
 import {Input, Smily, Send} from 'styles'
 
-// import {useLocalStorageState} from 'utils'
-
-const API_URL = 'http://localhost:8080'
-
-function createQuote(quote) {
-  return fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(quote)
-  })
-    .then(quote => {
-      console.log(quote.json())
-      quote.json()
-    })
-}
+const API_URL = 'http://localhost:8080/quotes'
 
 function App() {
   const [quote, setQuote] = React.useState({
     sentence: ' Esta es la frase inicial',
   })
   const {sentence} = quote
+
+  function createQuote() {
+    return fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify(quote),
+    })
+    .then(async response => {
+      const {data} = await response.json()
+      if (response.ok) {
+       return data
+      }
+      else {
+       const error = {
+          message: 'error creating the quote',
+        }
+
+        return Promise.reject(error)
+      }
+    })
+  }
 
   function handleSubmit(event) {
     event.preventDefault()
