@@ -2,18 +2,16 @@
 import {jsx} from '@emotion/core'
 import 'bootstrap/dist/css/bootstrap-reboot.css'
 import React from 'react'
-import {FaSleigh} from 'react-icons/fa'
 import {Input, Smily, Button, Send} from 'styles'
 
 const API_URL = 'http://localhost:8080/quotes'
 
 function App() {
+  const [disabled, setDisabled] = React.useState(true)
   const [quote, setQuote] = React.useState({
     sentence: 'Esta es la frase inicial',
   })
-  const [disabled, setDisabled] = React.useState(true)
 
-  console.log(quote, ' quote state')
   const {sentence} = quote
 
   function createQuote() {
@@ -24,7 +22,7 @@ function App() {
       },
       body: JSON.stringify(quote),
     }).then(async response => {
-      const {data} = await response.json()
+      const data = await response.json()
       if (response.ok) {
         return data
       } else {
@@ -42,14 +40,16 @@ function App() {
     createQuote({sentence})
   }
 
-  function handleSentenceChange(event, sentence) {
+  function handleSentenceChange(event) {
     event.preventDefault()
-    setQuote(
-      {
-        sentence: event.target.value,
-      },
-      sentence,
-    )
+    const sentenceValue = event.target.value
+
+    const capitelizeSentence =
+      sentenceValue.slice(0, 1).toUpperCase() + sentenceValue.slice(1)
+
+    setQuote({
+      sentence: capitelizeSentence,
+    })
     setDisabled(false)
   }
 
