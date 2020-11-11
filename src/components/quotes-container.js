@@ -53,7 +53,17 @@ function QuotesContainer() {
   }
 
   return (
-    <div>
+    <div
+      css={{
+        display: 'flex',
+        flexDirection: 'column',
+        '> div': {
+          margin: '10px auto',
+          width: '100%',
+          maxWidth: '400px',
+        },
+      }}
+    >
       <div>
         <h1
           css={{
