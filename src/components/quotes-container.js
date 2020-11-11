@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/core */
 import {jsx} from '@emotion/core'
-import {Input, Smily, Button, Send} from 'styles'
 import React from 'react'
+
+import {WriteQuote} from './write-quote'
 
 const API_URL = 'http://localhost:8080/quotes'
 
@@ -39,8 +40,7 @@ function QuotesContainer() {
     createQuote({sentence})
   }
 
-  function handleSentenceChange(event) {
-    event.preventDefault()
+  function handleChange(event) {
     const sentenceValue = event.target.value
 
     const capitelizeSentence =
@@ -74,39 +74,12 @@ function QuotesContainer() {
         </h1>
       </div>
       <div>
-        <form onSubmit={handleSubmit}>
-          <div
-            css={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <div
-              css={{
-                border: '2px solid black',
-                borderRadius: '2em',
-                width: '400px',
-              }}
-            >
-              <span>
-                <Smily />
-              </span>
-              <label htmlFor="sentence"></label>
-              <Input
-                type="text"
-                variant="secondary"
-                id="sentence"
-                name="sentence"
-                placeholder="Escribe tu idea"
-                onChange={handleSentenceChange}
-              />
-              <Button type="submit" disabled={disabled}>
-                <Send />
-              </Button>
-            </div>
-          </div>
-        </form>
+        <WriteQuote
+          quote={quote}
+          handleQuoteSubmit={handleSubmit}
+          onSentenceChange={handleChange}
+          disabled={disabled}
+        />
       </div>
     </div>
   )
